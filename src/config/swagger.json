@@ -1,0 +1,69 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "1.0.0"
+    },
+    "host": "localhost:3000",
+    "basePath": "/api/v1",
+    "schemes": ["http"],
+    "produces": ["application/json"],
+    "paths": {
+        "/": {
+            "get": {
+                "tags": ["Test"],
+                "summary": "An example router",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                },
+                "content": {
+                    "application/json": {}
+                },
+                "parameters": []
+            }
+        },
+        "/login": {
+            "post": {
+                "tags": ["Login"],
+                "summary": "Authenticate and provide a token for the user",
+                "responses": {
+                    "200": {
+                        "description": "Login success"
+                    },
+                    "400": {
+                        "description": "Invalid credentials"
+                    },
+                    "403": {
+                        "description": "Missing credentials in the request"
+                    }
+                },
+                "content": {
+                    "application/json": {}
+                },
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "user_credentials",
+                        "description": "The email address and password of the user",
+                        "schema": {
+                            "type": "object",
+                            "required": ["email", "password"],
+                            "properties": {
+                                "email": {
+                                    "type": "string"
+                                },
+                                "password": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ]
+            }
+        }
+    }
+}
