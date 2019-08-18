@@ -21,7 +21,7 @@ describe('User entity', () => {
         john.firstName = 'John';
         john.lastName = 'Doe';
         john.emailAddress = 'john@test.com';
-        john.encryptedPassword = 'password';
+        john.password = 'password';
         return john;
     };
 
@@ -32,30 +32,10 @@ describe('User entity', () => {
         expect(user.id).toBeTruthy();
     });
 
-    it('should hash password on insert', async () => {
-        const user = getJohn();
-        const passwordBeforeSave = user.encryptedPassword;
-        await user.save();
-
-        expect(user.encryptedPassword).not.toEqual(passwordBeforeSave);
-    });
-
-    it('should hash password on update only if password is changed', async () => {
-        const user = getJohn();
-        await user.save();
-
-        const encryptedPasswordBeforeUpdate = user.encryptedPassword;
-
-        // when password is not changed
-        user.emailAddress = 'new@email.address';
-        await user.save();
-        expect(user.encryptedPassword).toEqual(encryptedPasswordBeforeUpdate);
-
-        // when password is changed
-        user.encryptedPassword = 'my-new-password';
-        await user.save();
-        expect(user.encryptedPassword).not.toEqual(
-            encryptedPasswordBeforeUpdate
-        );
+    it('should hash password', async () => {
+        const user = new User();
+        const plainPassword = 'password';
+        user.password = plainPassword;
+        expect(user.password).not.toEqual(plainPassword);
     });
 });
