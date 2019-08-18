@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import createHttpError from 'http-errors';
 import { body } from 'express-validator';
-import { plainToClass } from 'class-transformer';
+import { plainToClass, classToPlain } from 'class-transformer';
 import userController from './controller';
 import User from '../../entities/user';
 import { validate } from '../../middleware/common';
@@ -17,12 +17,15 @@ export default [
                 body('emailAddress').isEmail(),
                 body('password').isLength({ min: 6, max: 28 }),
                 body('firstName').isLength({ min: 3, max: 20 }),
-                body('lastName').isLength({ min: 3, max: 20 })
+                body('lastName')
+                    .optional()
+                    .isLength({ min: 3, max: 20 })
             ),
             async (req: Request, res: Response, next: NextFunction) => {
-                const user: User = plainToClass(User, req.body);
+                const params: User = plainToClass(User, req.body);
                 try {
-                    createUser(user);
+                    const user = await createUser(params);
+                    res.status(201).json(classToPlain(user));
                 } catch (e) {
                     return next(createHttpError(500, e));
                 }

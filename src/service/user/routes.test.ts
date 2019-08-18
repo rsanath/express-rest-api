@@ -40,14 +40,21 @@ describe('user endpoint', () => {
     });
 
     describe('POST /user', () => {
-        it('should respond 422 for invalid body', async done => {
-            userControler.createUser = jest
-                .fn()
-                .mockResolvedValue(() => console.log('Mock function called'));
-
+        it('should respond 422 for invalid body', async () => {
             const response = await request(router).post('/api/v1/user');
             expect(response.status).toEqual(422);
-            done();
+        });
+
+        it('should respond create and return the user', async () => {
+            const response = await request(router)
+                .post('/api/v1/user')
+                .send({
+                    emailAddress: 'john@example.com',
+                    password: 'password',
+                    firstName: 'John'
+                });
+            expect(response.status).toEqual(201);
+            expect(response.body.id).not.toBeFalsy();
         });
     });
 });
