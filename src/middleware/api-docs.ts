@@ -1,7 +1,6 @@
 import { Router } from 'express';
 import swaggerUi from 'swagger-ui-express';
 
-// swagger documentation
 // https://swagger.io/docs/specification/about/
 import swaggerDocument from '../config/swagger.json';
 

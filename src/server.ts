@@ -1,10 +1,9 @@
-import dotenv from 'dotenv';
 import router from './router';
 import 'reflect-metadata';
 import { getConnection } from './db';
 
-// load config properties from .env file
-dotenv.config();
+// load config properties
+require('custom-env').env(process.env.NODE_ENV || 'development');
 
 // handle node instance exceptions
 process.on('uncaughtException', e => {
@@ -16,9 +15,8 @@ process.on('unhandledRejection', e => {
     process.exit(1);
 });
 
-// wrap inside async function inorder to finish db migrations first
 (async () => {
-    // create db tables for defined models
+    // create db tables for defined entities
     await getConnection();
 
     // start the server

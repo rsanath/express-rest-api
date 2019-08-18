@@ -1,10 +1,9 @@
 import 'reflect-metadata';
 import { createConnection } from 'typeorm';
-import dotenv from 'dotenv';
 import { entities } from './entities';
 
-// make sure to load db properties from env
-dotenv.config();
+// load config properties
+require('custom-env').env(process.env.NODE_ENV || 'development');
 
 // should consider missing of these properties as an exception
 const {
@@ -26,5 +25,5 @@ export const getConnection = () =>
         database: DB_NAME,
         entities: entities,
         synchronize: true,
-        logging: NODE_ENV === 'development'
+        logging: NODE_ENV != 'production'
     });
