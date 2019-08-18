@@ -1,6 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
+        "title": "Express REST API started",
         "version": "1.0.0"
     },
     "host": "localhost:3000",
@@ -26,19 +27,16 @@
                 "parameters": []
             }
         },
-        "/login": {
+        "/user": {
             "post": {
-                "tags": ["Login"],
-                "summary": "Authenticate and provide a token for the user",
+                "tags": ["User"],
+                "summary": "Create a new user",
                 "responses": {
-                    "200": {
-                        "description": "Login success"
-                    },
-                    "400": {
-                        "description": "Invalid credentials"
+                    "201": {
+                        "description": "User created"
                     },
                     "403": {
-                        "description": "Missing credentials in the request"
+                        "description": "Invalid request body params"
                     }
                 },
                 "content": {
@@ -47,8 +45,8 @@
                 "parameters": [
                     {
                         "in": "body",
-                        "name": "user_credentials",
-                        "description": "The email address and password of the user",
+                        "name": "User",
+                        "description": "Information about the user",
                         "schema": {
                             "type": "object",
                             "required": ["email", "password"],

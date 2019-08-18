@@ -1,4 +1,6 @@
-import { Router } from 'express';
+import { Router, Request, Response, NextFunction } from 'express';
+import { validationResult, ValidationChain } from 'express-validator';
+import createHttpError from 'http-errors';
 import cors from 'cors';
 import parser from 'body-parser';
 import morgan from 'morgan';
@@ -18,4 +20,19 @@ export const logRequest = (router: Router) => {
     const { NODE_ENV } = process.env;
     const format = NODE_ENV === 'production' ? 'tiny' : 'dev';
     router.use(morgan(format));
+};
+
+export const validate = (...validations: ValidationChain[]) => {
+    return async (req: Request, res: Response, next: NextFunction) => {
+        await Promise.all(validations.map(validation => validation.run(req)));
+        const errors = validationResult(req);
+        if (errors.isEmpty()) {
+            return next();
+        }
+        const error = createHttpError(
+            422,
+            'Required fields are missing or invalid. Please refer the API docs'
+        );
+        next(error);
+    };
 };

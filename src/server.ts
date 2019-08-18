@@ -1,5 +1,5 @@
 import router from './router';
-import 'reflect-metadata';
+import 'reflect-metadata'; // important to import this at the very begining
 import { getConnection } from './db';
 
 // load config properties

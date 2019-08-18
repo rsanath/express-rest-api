@@ -1,4 +1,4 @@
 import rootRoutes from './root/routes';
-import authRoutes from './auth/routes';
+import userRoutes from './user/routes';
 
-export default [...rootRoutes, ...authRoutes];
+export default [...rootRoutes, ...userRoutes];
