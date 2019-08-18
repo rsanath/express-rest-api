@@ -1,4 +1,5 @@
 import { Router, RequestHandler } from 'express';
+import bcrypt from 'bcrypt';
 
 type MiddlewareWrapper = (router: Router) => void;
 
@@ -27,3 +28,5 @@ export const applyRoutes = (
         (router as any)[method](path, handler);
     });
 };
+
+export const encrypt = (value: string) => bcrypt.hashSync(value, 10);
