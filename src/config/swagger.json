@@ -1,28 +1,30 @@
 {
-    "swagger": "2.0",
+    "openapi": "3.0.0",
     "info": {
         "title": "Express REST API started",
         "version": "1.0.0"
     },
-    "host": "localhost:3000",
-    "basePath": "/api/v1",
-    "schemes": ["http"],
-    "produces": ["application/json"],
+    "servers": [
+        {
+            "url": "http://localhost:8000/api/v1",
+            "description": "Development server"
+        }
+    ],
     "paths": {
         "/": {
             "get": {
                 "tags": ["Test"],
-                "summary": "An example router",
+                "summary": "An example route",
                 "responses": {
                     "200": {
-                        "description": "OK"
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
                     },
                     "400": {
                         "description": "Bad request"
                     }
-                },
-                "content": {
-                    "application/json": {}
                 },
                 "parameters": []
             }
@@ -31,36 +33,80 @@
             "post": {
                 "tags": ["User"],
                 "summary": "Create a new user",
-                "responses": {
-                    "201": {
-                        "description": "User created"
-                    },
-                    "403": {
-                        "description": "Invalid request body params"
-                    }
-                },
-                "content": {
-                    "application/json": {}
-                },
-                "parameters": [
-                    {
-                        "in": "body",
-                        "name": "User",
-                        "description": "Information about the user",
-                        "schema": {
-                            "type": "object",
-                            "required": ["email", "password"],
-                            "properties": {
-                                "email": {
-                                    "type": "string"
-                                },
-                                "password": {
-                                    "type": "string"
-                                }
+                "requestBody": {
+                    "description": "Information about the User",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateUserSchema"
                             }
                         }
                     }
-                ]
+                },
+                "responses": {
+                    "201": {
+                        "description": "User created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetUserSchema"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Invalid params"
+                    },
+                    "400": {
+                        "description": "Could not create the user"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "CreateUserSchema": {
+                "type": "object",
+                "required": ["firstName", "emailAddress", "password"],
+                "properties": {
+                    "firstName": {
+                        "type": "string"
+                    },
+                    "lastName": {
+                        "type": "string"
+                    },
+                    "emailAddress": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    }
+                }
+            },
+            "GetUserSchema": {
+                "type": "object",
+                "properties": {
+                    "firstName": {
+                        "type": "string"
+                    },
+                    "lastName": {
+                        "type": "string"
+                    },
+                    "emailAddress": {
+                        "type": "string"
+                    },
+                    "id": {
+                        "type": "integer"
+                    },
+                    "created_at": {
+                        "type": "string"
+                    },
+                    "updated_at": {
+                        "type": "string"
+                    }
+                }
             }
         }
     }
