@@ -4,17 +4,14 @@ import BaseEntity from './base-entity';
 
 @Entity()
 export default class User extends BaseEntity {
-    @Column() firstName!: string;
-    @Column() lastName!: string;
-    @Column() emailAddress!: string;
-    @Column() encryptedPassword!: string;
+    @Column({ name: 'first_name' }) firstName!: string;
+    @Column({ name: 'last_name' }) lastName!: string;
+    @Column({ name: 'email_address' }) emailAddress!: string;
+    @Column({ name: 'encrypted_password' }) encryptedPassword!: string;
 
     @BeforeUpdate()
     private async encryPasswordOnUpdate() {
         const user = await User.findOne({ id: this.id });
-
-        console.log(this.encryptedPassword);
-        console.log(typeof this.encryptedPassword);
 
         const shouldEncrypt =
             typeof this.encryptedPassword === 'string' &&

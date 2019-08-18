@@ -11,6 +11,10 @@ import {
 // A base class with common properties for all entities
 export default class BaseEntity extends _BaseEntity {
     @PrimaryGeneratedColumn() id!: number;
-    @CreateDateColumn({ nullable: true }) public createdAt!: Date;
-    @UpdateDateColumn({ nullable: true }) public updatedAt!: Date;
+
+    @CreateDateColumn({ name: 'created_at', nullable: true })
+    public createdAt!: Date;
+
+    @UpdateDateColumn({ name: 'updated_at', nullable: true })
+    public updatedAt!: Date;
 }
