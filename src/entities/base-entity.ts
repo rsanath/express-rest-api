@@ -3,27 +3,14 @@ import {
     BaseEntity as _BaseEntity,
     Column,
     BeforeUpdate,
-    BeforeInsert
+    BeforeInsert,
+    CreateDateColumn,
+    UpdateDateColumn
 } from 'typeorm';
 
-// a overloaded base entity with common properties
+// A base class with common properties for all entities
 export default class BaseEntity extends _BaseEntity {
     @PrimaryGeneratedColumn() id!: number;
-
-    @Column({ name: 'created_at', nullable: false })
-    public createdAt!: Date;
-
-    @Column({ name: 'updated_at', nullable: true })
-    public updatedAt!: Date;
-
-    @BeforeInsert()
-    createTimeStamps() {
-        this.createdAt = new Date();
-        this.updatedAt = new Date();
-    }
-
-    @BeforeUpdate()
-    updateTimestamp() {
-        this.updatedAt = new Date();
-    }
+    @CreateDateColumn({ nullable: true }) public createdAt!: Date;
+    @UpdateDateColumn({ nullable: true }) public updatedAt!: Date;
 }
