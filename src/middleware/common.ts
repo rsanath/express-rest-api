@@ -1,6 +1,6 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import { validationResult, ValidationChain } from 'express-validator';
-import createHttpError from 'http-errors';
+import HttpError from '../errors/http-error';
 import cors from 'cors';
 import parser from 'body-parser';
 import morgan from 'morgan';
@@ -29,7 +29,7 @@ export const validate = (...validations: ValidationChain[]) => {
         if (errors.isEmpty()) {
             return next();
         }
-        const error = createHttpError(
+        const error = new HttpError(
             422,
             'Required fields are missing or invalid. Please refer the API docs'
         );

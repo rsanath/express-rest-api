@@ -29,6 +29,10 @@ export class Config {
         return this.env === 'development';
     }
 
+    get isProduction() {
+        return this.env === 'production';
+    }
+
     get isConfigured() {
         return !anyFalsy(
             process.env.JWT_SECRET,

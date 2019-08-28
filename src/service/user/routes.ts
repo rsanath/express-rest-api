@@ -1,12 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
-import createHttpError from 'http-errors';
 import { body } from 'express-validator';
 import { plainToClass, classToPlain } from 'class-transformer';
 import userController from './controller';
 import User from '../../entities/user';
 import { validate } from '../../middleware/common';
-
-const { loginUser, createUser } = userController;
+import HttpError from '../../errors/http-error';
 
 export default [
     {
@@ -24,10 +22,10 @@ export default [
             async (req: Request, res: Response, next: NextFunction) => {
                 const params: User = plainToClass(User, req.body);
                 try {
-                    const user = await createUser(params);
+                    const user = await userController.createUser(params);
                     res.status(201).json(classToPlain(user));
                 } catch (e) {
-                    return next(createHttpError(500, e));
+                    return next(new HttpError(500, e.message));
                 }
             }
         ]
@@ -42,7 +40,7 @@ export default [
             ),
             async (req: Request, res: Response, next: NextFunction) => {
                 const { email, password } = req.body;
-                return await loginUser(email, password);
+                res.sendStatus(200);
             }
         ]
     }

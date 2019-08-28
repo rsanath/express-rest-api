@@ -1,28 +1,45 @@
 import { Response, NextFunction } from 'express';
-import createHttpError, { HttpError } from 'http-errors';
+import config from '../config';
+import ErrorResponse from '../models/error-response';
+import HttpError from '../errors/http-error';
 
 // throw NotFound error and let the error handler take care of it
 export const notFoundError = () => {
-    throw createHttpError(404, 'Method not found.');
+    throw new HttpError(404, 'Method not found.');
 };
 
 // treats non 5XX errors as client errors
-export const clientError = (err: Error, res: Response, next: NextFunction) => {
-    if (err instanceof HttpError && err.statusCode < 500) {
-        console.warn(err);
-        res.status(err.statusCode).json(err.message);
+export const clientError = (
+    error: Error,
+    res: Response,
+    next: NextFunction
+) => {
+    if (error instanceof HttpError && error.statusCode < 500) {
+        console.warn(error);
+        const response: ErrorResponse = {
+            message: error.message,
+            errors: error.errors
+        };
+        res.status(error.statusCode).json(response);
     } else {
-        next(err);
+        next(error);
     }
 };
 
 // We probably don't want to provide a lot of information about the error
-// to the client in production.
-export const serverError = (err: Error, res: Response, next: NextFunction) => {
-    console.error(err);
-    if (process.env.NODE_ENV === 'production') {
-        res.status(500).json('Internal Server Error');
+// to the client in production mode.
+export const serverError = (
+    error: Error,
+    res: Response,
+    next: NextFunction
+) => {
+    console.error(error);
+    if (config.isProduction) {
+        const response: ErrorResponse = {
+            message: error.message
+        };
+        res.status(500).json(response);
     } else {
-        res.status(500).json(err.stack);
+        res.status(500).json(error.stack);
     }
 };
