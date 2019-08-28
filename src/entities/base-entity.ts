@@ -1,14 +1,14 @@
 import {
     PrimaryGeneratedColumn,
     BaseEntity as _BaseEntity,
-    Column,
-    BeforeUpdate,
-    BeforeInsert,
     CreateDateColumn,
     UpdateDateColumn
 } from 'typeorm';
 
-// A base class with common properties for all entities
+/**
+ * A database entity class that defines common properties all tables
+ * such as primary-key and timestamps.
+ */
 export default class BaseEntity extends _BaseEntity {
     @PrimaryGeneratedColumn() id!: number;
 
