@@ -30,3 +30,14 @@ export const applyRoutes = (
 };
 
 export const encrypt = (value: string) => bcrypt.hashSync(value, 10);
+
+/**
+ * Checks if any one of the given value is falsy
+ * @param values list of any values
+ */
+export const anyFalsy = (...values: any[]) => {
+    for (let v of values) {
+        if (!v) return true;
+    }
+    return false;
+};

@@ -1,11 +1,15 @@
 import router from './router';
 import 'reflect-metadata'; // important to import this at the very begining
 import { getConnection } from './db';
+import config from './config';
 
-// load config properties
-require('custom-env').env(process.env.NODE_ENV || 'development');
+// assure that all config properties are set
+if (!config.isConfigured) {
+    console.error('Please set the config vars');
+    process.exit(1);
+}
 
-// handle node instance exceptions
+// terminate instance on exception
 process.on('uncaughtException', e => {
     console.log(e);
     process.exit(1);
@@ -20,8 +24,7 @@ process.on('unhandledRejection', e => {
     await getConnection();
 
     // start the server
-    const { PORT = 8000 } = process.env;
-    router.listen(PORT, () =>
-        console.log(`Server is running at http://localhost:${PORT}...`)
+    router.listen(config.port, () =>
+        console.log(`Server is running at http://localhost:${config.port}...`)
     );
 })();
