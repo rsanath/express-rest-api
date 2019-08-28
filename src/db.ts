@@ -3,7 +3,7 @@ import { entities } from './entities';
 import config from './config';
 
 export const getConnection = () => {
-    createConnection({
+    return createConnection({
         type: 'postgres',
         host: config.dbHost,
         port: config.dbPort,

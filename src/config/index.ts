@@ -17,7 +17,7 @@ export class Config {
     constructor() {
         this.env = process.env.NODE_ENV!;
         this.jwtSecter = process.env.JWT_SECRET!;
-        this.port = +process.env.DB_PORT!;
+        this.port = +process.env.PORT!;
         this.dbHost = process.env.DB_HOST!;
         this.dbName = process.env.DB_NAME!;
         this.dbUser = process.env.DB_USER!;
