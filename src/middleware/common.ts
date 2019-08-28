@@ -36,12 +36,12 @@ export const logRequest = (router: Router) => {
 };
 
 /**
- * Validates the incoming request.
+ * Creates a middlewate that validates the incoming request.
  *
  * If all validations are passed proceeds to the next middlewate in chain
  * otherwise throws an HttpError.
  *
- * @param validations The list of conditions to validate
+ * @param validations The conditions to validate
  *
  * @returns A Middleware that will handle the validation
  */
