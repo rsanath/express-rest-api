@@ -6,7 +6,7 @@ require('custom-env').env(process.env.NODE_ENV || 'development');
 // a handy class to hold all config
 export class Config {
     env: string;
-    jwtSecter: string;
+    jwtSecret: string;
     port: number;
     dbHost: string;
     dbName: string;
@@ -16,7 +16,7 @@ export class Config {
 
     constructor() {
         this.env = process.env.NODE_ENV!;
-        this.jwtSecter = process.env.JWT_SECRET!;
+        this.jwtSecret = process.env.JWT_SECRET!;
         this.port = +process.env.PORT!;
         this.dbHost = process.env.DB_HOST!;
         this.dbName = process.env.DB_NAME!;
