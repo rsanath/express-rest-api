@@ -1,4 +1,4 @@
-import User from '../../entities/user';
+import User from '../entities/user';
 
 export const createUser = async (user: User) => {
     await user.save();

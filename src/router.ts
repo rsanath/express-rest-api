@@ -1,7 +1,7 @@
 import express from 'express';
-import middlewares from './middleware';
-import errorHandlers from './middleware/error';
-import routes from './service';
+import middlewares from './middlewares';
+import errorHandlers from './middlewares/error';
+import routes from './routes';
 import { applyMiddlewares, applyRoutes } from './utils';
 
 // setup routes, middlewares and error handlers
