@@ -1,9 +1,9 @@
 import request from 'supertest';
 import { Connection } from 'typeorm';
-import router from '../../router';
-import { getConnection } from '../../db';
-import User from '../../entities/user';
-import userControler from './controller';
+import router from '../router';
+import { getConnection } from '../db';
+import User from '../entities/user';
+import userControler from '../service/user/controller';
 
 describe('user endpoint', () => {
     let db: Connection;

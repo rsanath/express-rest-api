@@ -1,6 +1,6 @@
 import { getConnection } from '../db';
 import { Connection } from 'typeorm';
-import User from './user';
+import User from '../entities/user';
 
 describe('User entity', () => {
     let db: Connection;
