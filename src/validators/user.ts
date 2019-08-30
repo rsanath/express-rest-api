@@ -10,6 +10,21 @@ export const createUserValidator = validate(
         .isLength({ min: 3, max: 20 })
 );
 
+export const updateUserValidator = validate(
+    body('emailAddress')
+        .isEmail()
+        .optional(),
+    body('password')
+        .isLength({ min: 6, max: 28 })
+        .optional(),
+    body('firstName')
+        .isLength({ min: 3, max: 20 })
+        .optional(),
+    body('lastName')
+        .optional()
+        .isLength({ min: 3, max: 20 })
+);
+
 export const loginValidator = validate(
     body('email').isEmail(),
     body('password').isLength({ min: 6, max: 28 })

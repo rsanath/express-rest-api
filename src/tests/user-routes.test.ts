@@ -44,7 +44,7 @@ describe('user endpoint', () => {
             expect(response.status).toEqual(422);
         });
 
-        it('should respond create and return the user', async () => {
+        it('should respond 201 and return the user', async () => {
             const response = await request(router)
                 .post('/api/v1/user')
                 .send({

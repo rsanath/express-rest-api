@@ -14,16 +14,16 @@ const handle404Error = (router: Router) => {
 const handleClientError = (router: Router) => {
     router.use(
         (error: Error, req: Request, res: Response, next: NextFunction) => {
-            if (error instanceof HttpError && error.statusCode < 500) {
-                console.warn(error);
-                const response: ErrorResponse = {
-                    message: error.message,
-                    errors: error.errors
-                };
-                res.status(error.statusCode).json(response);
-            } else {
-                next(error);
+            if (!isClientError(error)) {
+                return next(error);
             }
+            console.warn(error);
+            const httpError = error as HttpError;
+            const response: ErrorResponse = {
+                message: httpError.message,
+                errors: httpError.errors
+            };
+            res.status(httpError.statusCode).json(response);
         }
     );
 };
@@ -33,16 +33,20 @@ const handleServerError = (router: Router) => {
     router.use(
         (error: Error, req: Request, res: Response, next: NextFunction) => {
             console.error(error);
-            if (config.isProduction) {
-                const response: ErrorResponse = {
-                    message: error.message
-                };
-                res.status(500).json(response);
-            } else {
+            if (config.isDevelopment) {
                 res.status(500).json(error.stack);
+                return;
             }
+            const response: ErrorResponse = {
+                message: error.message
+            };
+            res.status(500).json(response);
         }
     );
+};
+
+const isClientError = (error: Error): boolean => {
+    return error instanceof HttpError && error.statusCode < 500;
 };
 
 export default [handle404Error, handleClientError, handleServerError];

@@ -11,24 +11,6 @@
         }
     ],
     "paths": {
-        "/": {
-            "get": {
-                "tags": ["Test"],
-                "summary": "An example route",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {}
-                        }
-                    },
-                    "400": {
-                        "description": "Bad request"
-                    }
-                },
-                "parameters": []
-            }
-        },
         "/user": {
             "post": {
                 "tags": ["User"],
