@@ -1,10 +1,16 @@
 import User from '../entities/user';
 
+export const getUserByEmail = async (
+    emailAddress: string
+): Promise<User | null> => {
+    const user = await User.findOne({ emailAddress });
+    if (!user) return null;
+    return user;
+};
+
 export const getUserById = async (id: number): Promise<User | null> => {
     const user = await User.findOne({ id });
-    if (!user) {
-        return null;
-    }
+    if (!user) return null;
     return user;
 };
 

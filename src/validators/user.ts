@@ -1,5 +1,6 @@
 import { body } from 'express-validator';
 import { validate } from '../middlewares/common';
+import { getUserByEmail } from '../service/user';
 
 export const createUserValidator = validate(
     body('emailAddress').isEmail(),
@@ -7,7 +8,14 @@ export const createUserValidator = validate(
     body('firstName').isLength({ min: 3, max: 20 }),
     body('lastName')
         .optional()
-        .isLength({ min: 3, max: 20 })
+        .isLength({ min: 3, max: 20 }),
+    body('emailAddress')
+        .custom(async value => {
+            const user = await getUserByEmail(value);
+            if (user != null) throw new Error();
+            return true;
+        })
+        .withMessage('Given email is already registered')
 );
 
 export const updateUserValidator = validate(

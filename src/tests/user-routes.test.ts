@@ -55,5 +55,25 @@ describe('user endpoint', () => {
             expect(response.status).toEqual(201);
             expect(response.body.id).not.toBeFalsy();
         });
+
+        it('should respond 422 for duplicate registration', async () => {
+            const firstResponse = await request(router)
+                .post('/api/v1/user')
+                .send({
+                    emailAddress: 'john@example.com',
+                    password: 'password',
+                    firstName: 'John'
+                });
+            expect(firstResponse.status).toEqual(201);
+
+            const secondResponse = await request(router)
+                .post('/api/v1/user')
+                .send({
+                    emailAddress: 'john@example.com',
+                    password: 'password',
+                    firstName: 'John'
+                });
+            expect(secondResponse.status).toEqual(422);
+        });
     });
 });
