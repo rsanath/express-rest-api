@@ -10,8 +10,5 @@ applyMiddlewares(middlewares, router);
 applyRoutes(routes, router, '/api/v1');
 applyMiddlewares(errorHandlers, router);
 
-// format the response payload
-router.set('json spaces', 2);
-
 // export the router
 export default router;
