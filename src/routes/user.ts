@@ -7,7 +7,7 @@ import {
 
 export default [
     {
-        path: '/user',
+        path: '/user/:user_id',
         method: 'get',
         handler: [getUser]
     },

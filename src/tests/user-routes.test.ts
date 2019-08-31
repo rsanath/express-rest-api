@@ -76,4 +76,22 @@ describe('user endpoint', () => {
             expect(secondResponse.status).toEqual(422);
         });
     });
+
+    describe('GET /user', () => {
+        it('should get the user with the given id', async () => {
+            const user = new User();
+            user.id = 1;
+            user.emailAddress = 'test@email.com';
+            user.firstName = 'John';
+            user.password = 'dummy-password';
+
+            await user.save();
+
+            const response = await request(router).get(
+                `/api/v1/user/${user.id}`
+            );
+            expect(response.body.emailAddress).toBe(user.emailAddress);
+            expect(response.body.password).toBeFalsy();
+        });
+    });
 });
