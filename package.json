@@ -33,7 +33,7 @@
         "pm2": "^3.5.1",
         "reflect-metadata": "^0.1.13",
         "swagger-ui-express": "^4.0.7",
-        "typeorm": "^0.2.18"
+        "typeorm": "^0.2.25"
     },
     "devDependencies": {
         "@types/jest": "^24.0.17",
